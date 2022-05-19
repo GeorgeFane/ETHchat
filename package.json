@@ -21,10 +21,14 @@
     "url": "https://github.com/xmtp/example-chat-react/issues"
   },
   "dependencies": {
+    "@cyberlab/cyberconnect": "^4.4.2",
+    "@cyberlab/social-verifier": "^2.0.1",
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.5",
     "@xmtp/xmtp-js": "^3.0.0",
     "ethers": "^5.5.3",
+    "graphql": "^16.5.0",
+    "graphql-request": "^4.2.0",
     "imagemin-svgo": "^9.0.0",
     "next": "12.0.9",
     "next-optimized-images": "^2.6.2",

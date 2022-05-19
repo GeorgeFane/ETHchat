@@ -5,6 +5,36 @@ import useXmtp from '../hooks/useXmtp'
 import ConversationsList from './ConversationsList'
 import Loader from './Loader'
 
+import FollowButton from './CyberConnect/FollowButton';
+import GetConnections from './CyberConnect/GetConnections';
+
+import { useEffect, useState } from "react";
+import { DEMO_ADDRESS, CYBERCONNECT_ENDPOINT } from "./CyberConnect/constants";
+import { GraphQLClient, gql } from "graphql-request";
+
+// Initialize the GraphQL Client
+const gqlClient = new GraphQLClient(CYBERCONNECT_ENDPOINT);
+
+// You can add/remove fields in query
+const GET_CONNECTIONS = gql`
+  query($address: String!, $first: Int) {
+    identity(address: $address) {
+      followings(first: $first) {
+        list {
+          address
+          domain
+        }
+      }
+      followers(first: $first) {
+        list {
+          address
+          domain
+        }
+      }
+    }
+  }
+`;
+
 type NavigationPanelProps = {
   onConnect: () => Promise<void>
 }
@@ -13,13 +43,16 @@ type ConnectButtonProps = {
   onConnect: () => Promise<void>
 }
 
-const NavigationPanel = ({ onConnect }: NavigationPanelProps): JSX.Element => {
+const NavigationPanel = ({ onConnect, hide }: NavigationPanelProps): JSX.Element => {
   const { walletAddress } = useXmtp()
 
   return (
     <div className="flex-grow flex flex-col">
       {walletAddress ? (
-        <ConversationsPanel />
+        <ConversationsPanel
+          hide={hide}
+          walletAddress={walletAddress}
+        />
       ) : (
         <NoWalletConnectedMessage>
           <ConnectButton onConnect={onConnect} />
@@ -63,8 +96,43 @@ const ConnectButton = ({ onConnect }: ConnectButtonProps): JSX.Element => {
   )
 }
 
-const ConversationsPanel = (): JSX.Element => {
+const ConversationsPanel = ({ hide, walletAddress }): JSX.Element => {
   const { conversations, loadingConversations, client } = useXmtp()
+  const [followings, setFollowings] = useState<any>([]);
+
+  const peers = conversations.map(x => x.peerAddress);
+
+  useEffect(() => {
+    gqlClient
+      .request(GET_CONNECTIONS, {
+        address: walletAddress
+      })
+      .then((res) => {
+        const rtn = res?.identity?.followings?.list;
+        const addresses = rtn.map(x => x.address);
+        setFollowings(addresses);
+        console.log('followings', followings);
+      })
+      .catch(console.log)
+  }, []);
+
+  console.log('followings', followings);
+
+  if (followings.length < 1) {
+    // return <div />;
+  }
+
+  let filtered = conversations;
+  if (hide) {
+    filtered = conversations.filter(
+      conversation => followings.includes(conversation.peerAddress.toLowerCase())
+    );
+  }
+  console.log('hide', hide);
+  console.log('peers', peers);
+  console.log('conversations', conversations);
+  console.log('filtered', filtered);
+
   if (!client) {
     return (
       <Loader
@@ -84,9 +152,9 @@ const ConversationsPanel = (): JSX.Element => {
     )
   }
 
-  return conversations && conversations.length > 0 ? (
+  return filtered && filtered.length > 0 ? (
     <nav className="flex-1 pb-4 space-y-1">
-      <ConversationsList conversations={conversations} />
+      <ConversationsList conversations={filtered} />
     </nav>
   ) : (
     <NoConversationsMessage />

@@ -7,6 +7,8 @@ import Address from './Address'
 import useWallet from '../hooks/useWallet'
 import useXmtp from '../hooks/useXmtp'
 
+import FollowButton from './CyberConnect/FollowButton';
+
 type UserMenuProps = {
   onConnect?: () => Promise<void>
   onDisconnect?: () => Promise<void>
@@ -49,7 +51,7 @@ const NotConnected = ({ onConnect }: UserMenuProps): JSX.Element => {
   )
 }
 
-const UserMenu = ({ onConnect, onDisconnect }: UserMenuProps): JSX.Element => {
+const UserMenu = ({ onConnect, onDisconnect, hide, setHide }: UserMenuProps): JSX.Element => {
   const { walletAddress, client } = useXmtp()
   const { lookupAddress } = useWallet()
 
@@ -124,6 +126,26 @@ const UserMenu = ({ onConnect, onDisconnect }: UserMenuProps): JSX.Element => {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items className="origin-bottom-right absolute right-0 bottom-12 mb-4 w-40 rounded-md shadow-lg bg-white divide-y-2 divide-zinc-50 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="px-1 py-1 ">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          // className="followButton"
+                          className='block rounded-md px-2 py-2 text-sm text-n-600 text-right font-normal cursor-pointer'
+                          onClick={() => setHide(!hide)}
+                        >
+                          {hide ? "See all messages" : "Filter by connection"}
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                  <div className="px-1 py-1 ">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <FollowButton />
+                      )}
+                    </Menu.Item>
+                  </div>
                   <div className="px-1 py-1 ">
                     <Menu.Item>
                       {({ active }) => (

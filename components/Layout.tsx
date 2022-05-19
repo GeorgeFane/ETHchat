@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import useXmtp from '../hooks/useXmtp'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
@@ -80,6 +80,10 @@ const Layout: React.FC = ({ children }) => {
     disconnect: disconnectWallet,
   } = useWallet()
 
+  console.log('walletAddress', walletAddress);
+
+  const [hide, setHide] = useState<any>(false);
+
   const handleDisconnect = useCallback(async () => {
     disconnectXmtp()
     await disconnectWallet()
@@ -126,12 +130,20 @@ const Layout: React.FC = ({ children }) => {
         <NavigationView>
           <NavigationColumnLayout>
             <NavigationHeaderLayout>
-              {walletAddress && client && <NewMessageButton />}
+              {walletAddress && client && <div>
+                  <NewMessageButton />
+                </div>}
             </NavigationHeaderLayout>
-            <NavigationPanel onConnect={handleConnect} />
+            <NavigationPanel
+              onConnect={handleConnect}
+              hide={hide}
+              walletAddress={walletAddress}
+            />
             <UserMenu
               onConnect={handleConnect}
               onDisconnect={handleDisconnect}
+              hide={hide}
+              setHide={setHide}
             />
           </NavigationColumnLayout>
         </NavigationView>
