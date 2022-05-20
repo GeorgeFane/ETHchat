@@ -82,7 +82,7 @@ const Layout: React.FC = ({ children }) => {
 
   console.log('walletAddress', walletAddress);
 
-  const [hide, setHide] = useState<any>(false);
+  const [hide, setHide] = useState<boolean>(false);
 
   const handleDisconnect = useCallback(async () => {
     disconnectXmtp()
@@ -137,7 +137,6 @@ const Layout: React.FC = ({ children }) => {
             <NavigationPanel
               onConnect={handleConnect}
               hide={hide}
-              walletAddress={walletAddress}
             />
             <UserMenu
               onConnect={handleConnect}

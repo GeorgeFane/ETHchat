@@ -12,11 +12,19 @@ function FollowButton() {
     // Prompt to enter the address
     const address = prompt("Enter the ens/address to follow:");
 
+    if (!address) {
+      return <div />;
+    }
+
     try {
       await cyberConnect.connect(address);
       alert(`Success: you're following ${address}!`);
     } catch (error) {
-      console.error(error.message);
+      let errorMessage;
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      console.log(errorMessage);
     }
   };
 

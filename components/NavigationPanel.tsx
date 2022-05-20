@@ -5,12 +5,10 @@ import useXmtp from '../hooks/useXmtp'
 import ConversationsList from './ConversationsList'
 import Loader from './Loader'
 
-import FollowButton from './CyberConnect/FollowButton';
-import GetConnections from './CyberConnect/GetConnections';
-
 import { useEffect, useState } from "react";
 import { DEMO_ADDRESS, CYBERCONNECT_ENDPOINT } from "./CyberConnect/constants";
 import { GraphQLClient, gql } from "graphql-request";
+import { Connection } from '@cyberlab/cyberconnect/lib/types'
 
 // Initialize the GraphQL Client
 const gqlClient = new GraphQLClient(CYBERCONNECT_ENDPOINT);
@@ -36,14 +34,19 @@ const GET_CONNECTIONS = gql`
 `;
 
 type NavigationPanelProps = {
-  onConnect: () => Promise<void>
+  onConnect: () => Promise<void>,
+  hide: boolean,
 }
 
 type ConnectButtonProps = {
   onConnect: () => Promise<void>
 }
 
-const NavigationPanel = ({ onConnect, hide }: NavigationPanelProps): JSX.Element => {
+type Connections = {
+  address: string
+}
+
+const NavigationPanel = ({ onConnect, hide }: {onConnect: any, hide: boolean}): JSX.Element => {
   const { walletAddress } = useXmtp()
 
   return (
@@ -96,7 +99,7 @@ const ConnectButton = ({ onConnect }: ConnectButtonProps): JSX.Element => {
   )
 }
 
-const ConversationsPanel = ({ hide, walletAddress }): JSX.Element => {
+const ConversationsPanel = ({ hide, walletAddress }: { hide: boolean, walletAddress: string }): JSX.Element => {
   const { conversations, loadingConversations, client } = useXmtp()
   const [followings, setFollowings] = useState<any>([]);
 
@@ -109,8 +112,9 @@ const ConversationsPanel = ({ hide, walletAddress }): JSX.Element => {
       })
       .then((res) => {
         const rtn = res?.identity?.followings?.list;
-        const addresses = rtn.map(x => x.address);
+        const addresses = rtn.map((x: any) => x.address);
         setFollowings(addresses);
+        console.log('rtn', rtn);
         console.log('followings', followings);
       })
       .catch(console.log)

@@ -12,6 +12,8 @@ import FollowButton from './CyberConnect/FollowButton';
 type UserMenuProps = {
   onConnect?: () => Promise<void>
   onDisconnect?: () => Promise<void>
+  hide: boolean
+  setHide: any
 }
 
 type AvatarBlockProps = {
@@ -182,7 +184,11 @@ const UserMenu = ({ onConnect, onDisconnect, hide, setHide }: UserMenuProps): JS
           )}
         </Menu>
       ) : (
-        <NotConnected onConnect={onConnect} />
+        <NotConnected
+          onConnect={onConnect}
+          hide={hide}
+          setHide={setHide}
+        />
       )}
     </div>
   )
