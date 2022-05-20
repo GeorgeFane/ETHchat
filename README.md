@@ -1,3 +1,21 @@
+# XMTP Chat with CyberConnect Filtering
+
+[Deployed Site](https://eth-chat-georgefane.vercel.app/)
+
+[Demo Video](https://umich.zoom.us/rec/play/R7HIbhM2PpgbTmS4hvQkaDs-Z9AgSJwoyyimvbmlV0zLODh8VFulFQDumZ_yA9SdBzEWq2ZMhdHB5hw.33y12o42uW0jutai)
+
+## Comments on the video
+
+The CodeSandbox in the demo video showing "Followers" and "Followings" was created by CyberConnect and embedded at this link: [https://docs.cyberconnect.me/get-started/read-connections/#sandbox](https://docs.cyberconnect.me/get-started/read-connections/#sandbox)
+
+## Changes from original XMTP
+
+To retrieve "Followers" and "Followings", I used GraphQL code from the above CodeSandbox into [/components/NavigationPanel.tsx](https://github.com/georgefane/ETHchat/blob/main/components/NavigationPanel.tsx)
+
+The "Follow address" button is handled by [/components/CyberConnect/FollowButton.tsx](https://github.com/georgefane/ETHchat/blob/main/components/CyberConnect/FollowButton.tsx), which is identical to the file of the same name in the CodeSandbox embedded here: https://docs.cyberconnect.me/get-started/create-a-connection/#sandbox
+
+# ORIGINAL README BELOW
+
 # React Chat Example
 
 ![Test](https://github.com/xmtp/example-chat-react/actions/workflows/test.yml/badge.svg)
