@@ -14,6 +14,10 @@ To retrieve "Followers" and "Followings", I used GraphQL code from the above Cod
 
 The "Follow address" button is handled by [/components/CyberConnect/FollowButton.tsx](https://github.com/georgefane/ETHchat/blob/main/components/CyberConnect/FollowButton.tsx), which is identical to the file of the same name in the CodeSandbox embedded here: https://docs.cyberconnect.me/get-started/create-a-connection/#sandbox
 
+## How to Deploy
+
+Fork this repo and import into Vercel ([tutorial](https://vercel.com/guides/deploying-nextjs-with-vercel#vercel-for-git)).
+
 # ORIGINAL README BELOW
 
 # React Chat Example
