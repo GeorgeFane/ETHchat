@@ -2,7 +2,9 @@
 
 [Deployed Site](https://eth-chat-georgefane.vercel.app/)
 
-[Demo Video](https://umich.zoom.us/rec/play/R7HIbhM2PpgbTmS4hvQkaDs-Z9AgSJwoyyimvbmlV0zLODh8VFulFQDumZ_yA9SdBzEWq2ZMhdHB5hw.33y12o42uW0jutai)
+[Demo Video](https://youtu.be/DJxRfM3LOPc)
+
+[Original Demo Video on Zoom](https://umich.zoom.us/rec/play/R7HIbhM2PpgbTmS4hvQkaDs-Z9AgSJwoyyimvbmlV0zLODh8VFulFQDumZ_yA9SdBzEWq2ZMhdHB5hw.33y12o42uW0jutai)
 
 ## Comments on the video
 
