@@ -1,13 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import CyberConnect, { Env, Blockchain } from "@cyberlab/cyberconnect";
-
-const cyberConnect = new CyberConnect({
-  namespace: "CyberConnect",
-  env: Env.PRODUCTION,
-  chain: Blockchain.ETH,
-  provider: window.ethereum
-});
 
 type FollowButtonProps = {
   recipientWalletAddr: string,
@@ -15,6 +8,19 @@ type FollowButtonProps = {
 }
 
 function FollowButton({ recipientWalletAddr, onSend }: FollowButtonProps) {
+  const [ cyberConnect, setCyberConnect ] = useState<any>()
+
+  useEffect(() => {
+    const temp = new CyberConnect({
+      namespace: "CyberConnect",
+      env: Env.PRODUCTION,
+      chain: Blockchain.ETH,
+      provider: window.ethereum
+    });
+
+    setCyberConnect(temp)
+  }, [])
+
   const handleOnClick = async () => {
     // Prompt to enter the address
     const message = prompt("[OPTIONAL] Send connection request message:");
