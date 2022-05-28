@@ -5,6 +5,9 @@ import upArrowGreen from '../../public/up-arrow-green.svg'
 import upArrowGrey from '../../public/up-arrow-grey.svg'
 import { useRouter } from 'next/router'
 
+import FollowButton from '../CyberConnect/FollowButton'
+import UnfollowButton from '../CyberConnect/UnfollowButton'
+
 type MessageComposerProps = {
   onSend: (msg: string) => Promise<void>
 }
@@ -14,6 +17,9 @@ const MessageComposer = ({ onSend }: MessageComposerProps): JSX.Element => {
   const router = useRouter()
 
   useEffect(() => setMessage(''), [router.query.recipientWalletAddr])
+
+  const { recipientWalletAddr } = router.query
+  console.log('recipientWalletAddr', recipientWalletAddr)
 
   const onMessageChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => setMessage(e.currentTarget.value),
@@ -82,6 +88,16 @@ const MessageComposer = ({ onSend }: MessageComposerProps): JSX.Element => {
           />
         </button>
       </form>
+
+      <FollowButton
+        recipientWalletAddr={String(recipientWalletAddr)}
+        onSend={onSend}
+      />
+
+      <UnfollowButton
+        recipientWalletAddr={String(recipientWalletAddr)}
+      />
+
     </div>
   )
 }

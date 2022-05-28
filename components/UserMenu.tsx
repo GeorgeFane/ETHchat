@@ -131,26 +131,6 @@ const UserMenu = ({ onConnect, onDisconnect, hide, setHide }: UserMenuProps): JS
                   <div className="px-1 py-1 ">
                     <Menu.Item>
                       {({ active }) => (
-                        <button
-                          // className="followButton"
-                          className='block rounded-md px-2 py-2 text-sm text-n-600 text-right font-normal cursor-pointer'
-                          onClick={() => setHide(!hide)}
-                        >
-                          {hide ? "See all messages" : "Filter by connection"}
-                        </button>
-                      )}
-                    </Menu.Item>
-                  </div>
-                  <div className="px-1 py-1 ">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <FollowButton />
-                      )}
-                    </Menu.Item>
-                  </div>
-                  <div className="px-1 py-1 ">
-                    <Menu.Item>
-                      {({ active }) => (
                         <a
                           onClick={onClickCopy}
                           className={classNames(

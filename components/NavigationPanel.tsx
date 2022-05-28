@@ -10,27 +10,26 @@ import { DEMO_ADDRESS, CYBERCONNECT_ENDPOINT } from "./CyberConnect/constants";
 import { GraphQLClient, gql } from "graphql-request";
 import { Connection } from '@cyberlab/cyberconnect/lib/types'
 
+import MyListbox from './CyberConnect/MyListbox'
+
 // Initialize the GraphQL Client
 const gqlClient = new GraphQLClient(CYBERCONNECT_ENDPOINT);
 
 // You can add/remove fields in query
 const GET_CONNECTIONS = gql`
-  query($address: String!, $first: Int) {
-    identity(address: $address) {
-      followings(first: $first) {
-        list {
-          address
-          domain
-        }
-      }
-      followers(first: $first) {
-        list {
-          address
-          domain
-        }
-      }
+query($fromAddr: String!, $toAddrList: [String!]!) {
+  connections(
+    fromAddr: $fromAddr,
+    toAddrList: $toAddrList
+  ) {
+    fromAddr
+    toAddr
+    followStatus {
+      isFollowed
+      isFollowing
     }
   }
+}
 `;
 
 type NavigationPanelProps = {
@@ -46,7 +45,7 @@ type Connections = {
   address: string
 }
 
-const NavigationPanel = ({ onConnect, hide }: {onConnect: any, hide: boolean}): JSX.Element => {
+const NavigationPanel = ({ onConnect, hide }: NavigationPanelProps): JSX.Element => {
   const { walletAddress } = useXmtp()
 
   return (
@@ -101,41 +100,55 @@ const ConnectButton = ({ onConnect }: ConnectButtonProps): JSX.Element => {
 
 const ConversationsPanel = ({ hide, walletAddress }: { hide: boolean, walletAddress: string }): JSX.Element => {
   const { conversations, loadingConversations, client } = useXmtp()
-  const [followings, setFollowings] = useState<any>([]);
+  const [ followings, setFollowings ] = useState<any>([]);
 
+  const [ filterMode, setFilterMode ] = useState<number>(0)
+  const [ isVerified, setIsVerified ] = useState<any>()
+
+  console.log('filterMode', filterMode)
   const peers = conversations.map(x => x.peerAddress);
 
   useEffect(() => {
     gqlClient
       .request(GET_CONNECTIONS, {
-        address: walletAddress
+        fromAddr: walletAddress,
+        toAddrList: peers
       })
       .then((res) => {
-        const rtn = res?.identity?.followings?.list;
-        const addresses = rtn.map((x: any) => x.address);
-        setFollowings(addresses);
-        console.log('rtn', rtn);
-        console.log('followings', followings);
+        console.log('query result', res)
+
+        let temp: any = {}
+        res.connections.forEach( ( connection: any ) => {
+          const { toAddr, followStatus } = connection
+          const { isFollowed, isFollowing } = followStatus
+          temp[toAddr] = (2 * isFollowed + isFollowing) === filterMode
+        })
+        console.log('isVerified', temp)
+        setIsVerified(temp)
+
+        // const rtn = res?.identity?.followings?.list;
+        // const addresses = rtn.map((x: any) => x.address);
+        // setFollowings(addresses);
+        // console.log('rtn', rtn);
+        // console.log('followings', followings);
       })
       .catch(console.log)
-  }, []);
+  }, [filterMode]);
 
+  console.log('isVerified', isVerified)
   console.log('followings', followings);
 
-  if (followings.length < 1) {
-    // return <div />;
-  }
-
   let filtered = conversations;
-  if (hide) {
+  if (filterMode) {
+
     filtered = conversations.filter(
-      conversation => followings.includes(conversation.peerAddress.toLowerCase())
+      conversation => isVerified[conversation.peerAddress.toLowerCase()]
     );
   }
-  console.log('hide', hide);
-  console.log('peers', peers);
-  console.log('conversations', conversations);
-  console.log('filtered', filtered);
+  // console.log('hide', hide);
+  // console.log('peers', peers);
+  // console.log('conversations', conversations);
+  // console.log('filtered', filtered);
 
   if (!client) {
     return (
@@ -156,12 +169,21 @@ const ConversationsPanel = ({ hide, walletAddress }: { hide: boolean, walletAddr
     )
   }
 
-  return filtered && filtered.length > 0 ? (
+  const rtn = filtered && filtered.length > 0 ? (
     <nav className="flex-1 pb-4 space-y-1">
       <ConversationsList conversations={filtered} />
     </nav>
   ) : (
     <NoConversationsMessage />
+  )
+
+  return (
+    <div>
+      <MyListbox
+        setFilterMode={setFilterMode}
+      />
+      {rtn}
+    </div>
   )
 }
 
