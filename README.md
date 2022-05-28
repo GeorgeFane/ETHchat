@@ -1,20 +1,24 @@
-# XMTP Chat with CyberConnect Filtering
+# XMTP Chat with CyberConnect Filtering v2
 
-[Deployed Site](https://eth-chat-georgefane.vercel.app/)
+[Deployed Site](https://eth-chat-git-v2-georgefane.vercel.app/)
 
-[Demo Video](https://youtu.be/DJxRfM3LOPc)
+[Demo Video](https://youtu.be/ns02CxG63YU)
 
-[Original Demo Video on Zoom](https://umich.zoom.us/rec/play/R7HIbhM2PpgbTmS4hvQkaDs-Z9AgSJwoyyimvbmlV0zLODh8VFulFQDumZ_yA9SdBzEWq2ZMhdHB5hw.33y12o42uW0jutai)
+[Original Demo Video on Zoom](https://umich.zoom.us/rec/play/9jaj0XmdeVQ88MuN63Re_9-XwOaB5xDX0jvfVr-OT5EKunezizX7PAV71oEtZ84OV1k59lXc3WLH-KtZ.GZwEHF240FAqzQdj)
+
+[Bounty Specs](https://gitcoin.co/issue/xmtp-labs/ethshanghai-2022/1/100028887)
 
 ## Comments on the video
 
-The CodeSandbox in the demo video showing "Followers" and "Followings" was created by CyberConnect and embedded at this link: [https://docs.cyberconnect.me/get-started/read-connections/#sandbox](https://docs.cyberconnect.me/get-started/read-connections/#sandbox)
+The CodeSandbox in the demo video showing "Followers" and "Followings" was created by CyberConnect and embedded at this link: https://docs.cyberconnect.me/get-started/read-connections/#sandbox
 
 ## Changes from original XMTP
 
-To retrieve "Followers" and "Followings", I used GraphQL code from the above CodeSandbox into [/components/NavigationPanel.tsx](https://github.com/georgefane/ETHchat/blob/main/components/NavigationPanel.tsx)
+To detemine which contacts fit into which filter category, I referenced the GraphQL code here: https://docs.cyberconnect.me/cyberconnect-api/graphql-api/connections/#fetch-followstatus-example
 
-The "Follow address" button is handled by [/components/CyberConnect/FollowButton.tsx](https://github.com/georgefane/ETHchat/blob/main/components/CyberConnect/FollowButton.tsx), which is identical to the file of the same name in the CodeSandbox embedded here: https://docs.cyberconnect.me/get-started/create-a-connection/#sandbox
+The "Follow" button is defined at https://github.com/georgefane/ETHchat/blob/main/components/CyberConnect/FollowButton.tsx, and is based on the code here: https://docs.cyberconnect.me/get-started/create-a-connection/#sandbox
+
+The dropdown to select a filter is defined in this file https://github.com/georgefane/ETHchat/blob/v2/components/CyberConnect/MyListbox.tsx and is based on the top example here: https://headlessui.dev/react/listbox
 
 ## How to Deploy
 
