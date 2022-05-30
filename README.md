@@ -2,11 +2,9 @@
 
 [Deployed Site](https://eth-chat-git-v2-georgefane.vercel.app/)
 
-[Demo Video](https://youtu.be/ns02CxG63YU)
+[Demo Video](https://youtu.be/wHrf66OF7Ok)
 
 [Original Demo Video on Zoom](https://umich.zoom.us/rec/play/9jaj0XmdeVQ88MuN63Re_9-XwOaB5xDX0jvfVr-OT5EKunezizX7PAV71oEtZ84OV1k59lXc3WLH-KtZ.GZwEHF240FAqzQdj)
-
-[Bounty Specs](https://gitcoin.co/issue/xmtp-labs/ethshanghai-2022/1/100028887)
 
 ## Comments on the video
 
